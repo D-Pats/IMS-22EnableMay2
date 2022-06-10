@@ -75,6 +75,7 @@ We use Git and GitHub (http://github.com/) for versioning.
 ## Authors
 
 * **Chris Perrins** - *Initial work* - [christophperrins](https://github.com/christophperrins)
+* **Devin Patel** - *Project work from initial created by Chirs Perrins* - [D-Pats](https://github.com/D-Pats)
 
 ## License
 
