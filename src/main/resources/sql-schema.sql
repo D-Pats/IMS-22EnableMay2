@@ -27,6 +27,7 @@ CREATE TABLE IF NOT EXISTS `ims`.`orders` (
 
 CREATE TABLE IF NOT EXISTS `ims`.`orders_items` (
 	`orders_items_id` INT NOT NULL AUTO_INCREMENT,
+    `item_amount` INT DEFAULT NULL,
     `fk_order_id` INT NOT NULL,
     `fk_item_id` INT NOT NULL,
     PRIMARY KEY (`orders_items_id`),
