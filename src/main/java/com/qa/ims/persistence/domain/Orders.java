@@ -14,6 +14,11 @@ public class Orders {
 		super();
 	}
 
+	public Orders(Customer customer) {
+		super();
+		this.customer = customer;
+	}
+
 	public Orders(Long order_id) {
 		super();
 		this.order_id = order_id;

@@ -21,6 +21,11 @@ public class Customer {
 		// TODO Auto-generated constructor stub
 	}
 
+	public Customer(Long id) {
+		super();
+		this.id = id;
+	}
+
 	public Long getId() {
 		return id;
 	}

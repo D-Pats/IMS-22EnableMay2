@@ -47,12 +47,8 @@ public class OrdersController implements CrudController<Orders> {
 	public Orders create() {
 		LOGGER.info("Please enter a customer ID");
 		Long customer_id = utils.getLong();
-		LOGGER.info("Please enter a customer ID");
-		String customer_fname = utils.getString();
-		LOGGER.info("Please enter a customer ID");
-		String customer_lname = utils.getString();
-		Customer customer = new Customer(customer_id, customer_fname, customer_lname);
-		Orders order = new Orders(customer_id);
+		Customer customer = new Customer(customer_id);
+		Orders order = new Orders(customer);
 		LOGGER.info("Order created");
 		return order;
 	}
