@@ -9,9 +9,28 @@ public class Orders {
 	private Long item_id;
 	private Customer customer;
 	private Items item;
+	private Long item_amount;
 
 	public Orders() {
 		super();
+	}
+
+	public Orders(Long order_id, Customer customer, Items item, Long item_amount) {
+		super();
+		this.order_id = order_id;
+		this.customer = customer;
+		this.item = item;
+		this.item_amount = item_amount;
+	}
+
+	public Orders(Long order_id, Long customer_id, Long item_id, Customer customer, Items item, Long item_amount) {
+		super();
+		this.order_id = order_id;
+		this.customer_id = customer_id;
+		this.item_id = item_id;
+		this.customer = customer;
+		this.item = item;
+		this.item_amount = item_amount;
 	}
 
 	public Orders(Customer customer) {
@@ -58,6 +77,21 @@ public class Orders {
 		this.item = item;
 	}
 
+	public Orders(Long order_id, Items item, Long item_amount) {
+		super();
+		this.order_id = order_id;
+		this.item = item;
+		this.item_amount = item_amount;
+	}
+
+	public Long getItem_amount() {
+		return item_amount;
+	}
+
+	public void setItem_amount(Long item_amount) {
+		this.item_amount = item_amount;
+	}
+
 	public Long getOrder_id() {
 		return order_id;
 	}
@@ -100,7 +134,7 @@ public class Orders {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(customer, customer_id, item, item_id, order_id);
+		return Objects.hash(customer, customer_id, item, item_amount, item_id, order_id);
 	}
 
 	@Override
@@ -113,8 +147,8 @@ public class Orders {
 			return false;
 		Orders other = (Orders) obj;
 		return Objects.equals(customer, other.customer) && Objects.equals(customer_id, other.customer_id)
-				&& Objects.equals(item, other.item) && Objects.equals(item_id, other.item_id)
-				&& Objects.equals(order_id, other.order_id);
+				&& Objects.equals(item, other.item) && Objects.equals(item_amount, other.item_amount)
+				&& Objects.equals(item_id, other.item_id) && Objects.equals(order_id, other.order_id);
 	}
 
 }

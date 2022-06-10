@@ -28,9 +28,10 @@ public class OrdersDAO implements Dao<Orders> {
 		Long id = resultSet.getLong("customer_id");
 		String firstName = resultSet.getString("f_name");
 		String surname = resultSet.getString("l_name");
+		Long itemAmount = resultSet.getLong("item_amount");
 		Customer customer = new Customer(id, firstName, surname);
 		Items item = new Items(item_id, itemName, itemValue);
-		return new Orders(order_id, customer, item);
+		return new Orders(order_id, customer, item, itemAmount);
 	}
 
 	/**
@@ -94,8 +95,9 @@ public class OrdersDAO implements Dao<Orders> {
 		Long itemId = resultSet.getLong("item_id");
 		String itemName = resultSet.getString("item_name");
 		double itemCost = resultSet.getDouble("item_value");
+		Long itemAmount = resultSet.getLong("item_amount");
 		Items item = new Items(itemId, itemName, itemCost);
-		Orders order = new Orders(orderId, item);
+		Orders order = new Orders(orderId, item, itemAmount);
 		return order;
 	}
 
@@ -125,19 +127,19 @@ public class OrdersDAO implements Dao<Orders> {
 	 */
 	@Override
 	public Orders update(Orders order) {
-		try (Connection connection = DBUtils.getInstance().getConnection();
-				PreparedStatement statement = connection.prepareStatement(
-						"UPDATE orders SET fk_item_id = ?, fk_item_name = ?, fk_item_value= ? WHERE order_id = ?");) {
-			statement.setLong(1, order.getItem().getItemId());
-			statement.setString(2, order.getItem().getItemName());
-			statement.setDouble(3, order.getItem().getItemValue());
-			statement.setDouble(4, order.getOrder_id());
-			statement.executeUpdate();
-			return read(order.getOrder_id());
-		} catch (Exception e) {
-			LOGGER.debug(e);
-			LOGGER.error(e.getMessage());
-		}
+//		try (Connection connection = DBUtils.getInstance().getConnection();
+//				PreparedStatement statement = connection.prepareStatement(
+//						"UPDATE orders SET fk_item_id = ?, fk_item_name = ?, fk_item_value= ? WHERE order_id = ?");) {
+//			statement.setLong(1, order.getItem().getItemId());
+//			statement.setString(2, order.getItem().getItemName());
+//			statement.setDouble(3, order.getItem().getItemValue());
+//			statement.setDouble(4, order.getOrder_id());
+//			statement.executeUpdate();
+//			return read(order.getOrder_id());
+//		} catch (Exception e) {
+//			LOGGER.debug(e);
+//			LOGGER.error(e.getMessage());
+//		}
 		return null;
 	}
 
@@ -156,18 +158,23 @@ public class OrdersDAO implements Dao<Orders> {
 		return null;
 	}
 
-	public int deleteItemFromOrder(Long order_id, Long item_id) {
+	public void deleteItemFromOrder(Long order_id, Long item_id) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
-				PreparedStatement statement = connection
-						.prepareStatement("DELETE FROM orders_items WHERE fk_order_id = ? && fk_item_id = ?");) {
-			statement.setLong(1, order_id);
-			statement.setLong(2, item_id);
-			return statement.executeUpdate();
+				PreparedStatement statementRemove = connection
+						.prepareStatement("DELETE FROM orders_items WHERE fk_order_id = ? && fk_item_id = ? && item_amount < 1");
+				PreparedStatement statementUpdate = connection
+						.prepareStatement("UPDATE orders_items SET item_amount = item_amount - 1 WHERE fk_order_id = ? && fk_item_id = ? && item_amount > 0");) {
+			statementRemove.setLong(1, order_id);
+			statementRemove.setLong(2, item_id);
+			statementUpdate.setLong(1, order_id);
+			statementUpdate.setLong(2, item_id);
+			statementRemove.executeUpdate();
+			statementUpdate.executeUpdate();
 		} catch (Exception e) {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
 		}
-		return 0;
+		System.out.println("Item deleted from order");
 	}
 
 	/**

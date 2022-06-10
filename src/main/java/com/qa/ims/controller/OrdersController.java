@@ -48,7 +48,7 @@ public class OrdersController implements CrudController<Orders> {
 		LOGGER.info("Please enter a customer ID");
 		Long customer_id = utils.getLong();
 		Customer customer = new Customer(customer_id);
-		Orders order = new Orders(customer);
+		Orders order = ordersDAO.create(new Orders(customer));
 		LOGGER.info("Order created");
 		return order;
 	}
@@ -60,20 +60,22 @@ public class OrdersController implements CrudController<Orders> {
 	public Orders update() {
 		LOGGER.info("Please enter the id of the order you would like to update");
 		Long order_id = utils.getLong();
-		LOGGER.info("add (a) or delete (d) item");
-		String addDelete = utils.getString();
-		if (addDelete == "a") {
+		LOGGER.info("Would you like to add or remove an item from your order? enter 'add' or enter 'remove'");
+		String add = utils.getString();
+		if (add == "add") {
 			LOGGER.info("enter item ID");
 			Long new_item_id = utils.getLong();
+			LOGGER.info("enter amount of items");
+			Long new_item_amount = utils.getLong();
 			Items item = new Items(new_item_id);
-			Orders order = new Orders(order_id, item);
+			Orders order = new Orders(order_id, item, new_item_amount);
 			LOGGER.info("Order Updated");
 			return order;
-		} else if (addDelete == "d") {
-			LOGGER.info("enter item ID");
-			Long item_id_to_remove = utils.getLong();
+		} else if (add == "remove") {
+			LOGGER.info("enter item ID to be removed");
+			Long remove_item_id = utils.getLong();
 			OrdersDAO ordersDAO2 = new OrdersDAO();
-			ordersDAO2.deleteItemFromOrder(order_id, item_id_to_remove);
+			ordersDAO2.deleteItemFromOrder(order_id, remove_item_id);
 			LOGGER.info("Order Updated");
 		}
 		return null;
