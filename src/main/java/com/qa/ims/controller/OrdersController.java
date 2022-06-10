@@ -41,14 +41,17 @@ public class OrdersController implements CrudController<Orders> {
 	}
 
 	/**
-	 * Creates a customer by taking in user input
+	 * Creates an order by taking in user input
 	 */
 	@Override
 	public Orders create() {
 		LOGGER.info("Please enter a customer ID");
 		Long customer_id = utils.getLong();
-		Customer customer = new Customer();
-		customer.setId(customer_id);
+		LOGGER.info("Please enter a customer ID");
+		String customer_fname = utils.getString();
+		LOGGER.info("Please enter a customer ID");
+		String customer_lname = utils.getString();
+		Customer customer = new Customer(customer_id, customer_fname, customer_lname);
 		Orders order = new Orders(customer_id);
 		LOGGER.info("Order created");
 		return order;
@@ -63,17 +66,16 @@ public class OrdersController implements CrudController<Orders> {
 		Long order_id = utils.getLong();
 		LOGGER.info("add (a) or delete (d) item");
 		String addDelete = utils.getString();
-		if  (addDelete == "a") {
+		if (addDelete == "a") {
 			LOGGER.info("enter item ID");
 			Long new_item_id = utils.getLong();
 			Items item = new Items(new_item_id);
 			Orders order = new Orders(order_id, item);
 			LOGGER.info("Order Updated");
 			return order;
-		}
-		else if (addDelete == "d") {
+		} else if (addDelete == "d") {
 			LOGGER.info("enter item ID");
-			Long item_id_to_remove = utils.getLong(); 
+			Long item_id_to_remove = utils.getLong();
 			OrdersDAO ordersDAO2 = new OrdersDAO();
 			ordersDAO2.deleteItemFromOrder(order_id, item_id_to_remove);
 			LOGGER.info("Order Updated");
