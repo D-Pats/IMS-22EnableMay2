@@ -8,6 +8,11 @@ public class Items {
 	private String itemName;
 	private double itemValue;
 
+	public Items(Long item_id) {
+		super();
+		this.item_id = item_id;
+	}
+
 	public Items(String itemName, double itemValue) {
 		this.setItemName(itemName);
 		this.setItemValue(itemValue);
