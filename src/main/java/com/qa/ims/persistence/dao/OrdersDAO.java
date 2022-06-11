@@ -23,8 +23,8 @@ public class OrdersDAO implements Dao<Orders> {
 	public Orders modelFromResultSet(ResultSet resultSet) throws SQLException {
 		Long order_id = resultSet.getLong("order_id");
 		Long item_id = resultSet.getLong("item_id");
-		String itemName = resultSet.getString("itemName");
-		double itemValue = resultSet.getDouble("itemValue");
+		String itemName = resultSet.getString("item_name");
+		double itemValue = resultSet.getDouble("item_value");
 		Long id = resultSet.getLong("customer_id");
 		String firstName = resultSet.getString("f_name");
 		String surname = resultSet.getString("l_name");
