@@ -52,8 +52,8 @@ public class OrdersDAOTest {
 //
 //	}
 
-	@Test
-	public void testDelete() {
-		assertEquals(1, DAO.delete(1));
-	}
+//	@Test
+//	public void testDelete() {
+//		assertEquals(1, DAO.delete(1));
+//	}
 }
